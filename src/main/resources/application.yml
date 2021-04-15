@@ -16,7 +16,7 @@ eureka:         #tells about the Eureka server details and its refresh time
  
 spring:     
   application:
-    name: student-service   #current service name to be used by the eureka server
+    name: eureka-client-service   #current service name to be used by the eureka server
      
 management:
   security:
@@ -24,4 +24,16 @@ management:
  
 logging:
   level:
-    com.example.howtodoinjava: DEBUG
+    com.bijendra.eureka: DEBUG
+    
+swagger:
+  base:
+    package: com.bijendra.eureka
+  api:
+    title: Eureka Client Services
+    description: Eureka Client Services Demo
+    version: '@project.version@'
+    termsOfServiceUrl: http://swagger.io
+    contact: bijendrakrguptaitfiem@gmail.com
+    license: Bijendra@2021
+    licenseUrl: https://en.wikipedia.org/wiki/Proprietary_software
