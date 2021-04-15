@@ -6,7 +6,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bijendra.eureka.model.Student;
@@ -35,19 +38,31 @@ public class Swagger2DemoRestController {
             @ApiResponse(code = 403, message = "forbidden!!!"),
             @ApiResponse(code = 404, message = "not found!!!") })
  
-    @RequestMapping(value = "/getStudents")
+    @GetMapping(value = "/getStudents")
     public List<Student> getStudents() {
+        return students;
+    }
+    
+    @ApiOperation(value = "Save Student ", response = Student.class, tags = "saveStudent")
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Suceess|OK"),
+            @ApiResponse(code = 401, message = "not authorized!"), 
+            @ApiResponse(code = 403, message = "forbidden!!!"),
+            @ApiResponse(code = 404, message = "not found!!!") })
+    @PostMapping(value = "/getStudent/{name}")
+    public List<Student> saveStudDetails(@RequestBody Student student) {
+    	students.add(student);
         return students;
     }
  
     @ApiOperation(value = "Get specific Student in the System ", response = Student.class, tags = "getStudent")
-    @RequestMapping(value = "/getStudent/{name}")
+    @GetMapping(value = "/getStudent/{name}")
     public Student getStudent(@PathVariable(value = "name") String name) {
         return students.stream().filter(x -> x.getName().equalsIgnoreCase(name)).collect(Collectors.toList()).get(0);
     }
  
     @ApiOperation(value = "Get specific Student By Country in the System ", response = Student.class, tags = "getStudentByCountry")
-    @RequestMapping(value = "/getStudentByCountry/{country}")
+    @GetMapping(value = "/getStudentByCountry/{country}")
     public List<Student> getStudentByCountry(@PathVariable(value = "country") String country) {
         System.out.println("Searching Student in country : " + country);
         List<Student> studentsByCountry = students.stream().filter(x -> x.getCountry().equalsIgnoreCase(country))
@@ -57,7 +72,7 @@ public class Swagger2DemoRestController {
     }
  
     // @ApiOperation(value = "Get specific Student By Class in the System ",response = Student.class,tags="getStudentByClass")
-    @RequestMapping(value = "/getStudentByClass/{cls}")
+    @GetMapping(value = "/getStudentByClass/{cls}")
     public List<Student> getStudentByClass(@PathVariable(value = "cls") String cls) {
         return students.stream().filter(x -> x.getCls().equalsIgnoreCase(cls)).collect(Collectors.toList());
     }
